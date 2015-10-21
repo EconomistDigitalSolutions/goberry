@@ -1,0 +1,288 @@
+<!DOCTYPE HTML><html><head><title>gref API documentation</title><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><meta name="generator" content="https://github.com/kevinrenskers/raml2html 2.0.1"><link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css"><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/styles/default.min.css"><script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js"></script><script type="text/javascript" src="https://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script><script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.1/highlight.min.js"></script><script type="text/javascript">
+      $(document).ready(function() {
+        $('.page-header pre code, .top-resource-description pre code').each(function(i, block) {
+          hljs.highlightBlock(block);
+        });
+
+        $('[data-toggle]').click(function() {
+          var selector = $(this).data('target') + ' pre code';
+          $(selector).each(function(i, block) {
+            hljs.highlightBlock(block);
+          });
+        });
+
+        // open modal on hashes like #_action_get
+        $(window).bind('hashchange', function(e) {
+          var anchor_id = document.location.hash.substr(1); //strip #
+          var element = $('#' + anchor_id);
+
+          // do we have such element + is it a modal?  --> show it
+          if (element.length && element.hasClass('modal')) {
+            element.modal('show');
+          }
+        });
+
+        // execute hashchange on first page load
+        $(window).trigger('hashchange');
+
+        // remove url fragment on modal hide
+        $('.modal').on('hidden.bs.modal', function() {
+          if(history && history.replaceState) {
+            history.replaceState({}, '', '#');
+          }
+        });
+      });
+    </script><style>
+      .hljs {
+        background: transparent;
+      }
+      .parent {
+        color: #999;
+      }
+      .list-group-item > .badge {
+        float: none;
+        margin-right: 6px;
+      }
+      .panel-title > .methods {
+        float: right;
+      }
+      .badge {
+        border-radius: 0;
+        text-transform: uppercase;
+        width: 70px;
+        font-weight: normal;
+        color: #f3f3f6;
+        line-height: normal;
+      }
+      .badge_get {
+        background-color: #63a8e2;
+      }
+      .badge_post {
+        background-color: #6cbd7d;
+      }
+      .badge_put {
+        background-color: #22bac4;
+      }
+      .badge_delete {
+        background-color: #d26460;
+      }
+      .badge_patch {
+        background-color: #ccc444;
+      }
+      .list-group, .panel-group {
+        margin-bottom: 0;
+      }
+      .panel-group .panel+.panel-white {
+        margin-top: 0;
+      }
+      .panel-group .panel-white {
+        border-bottom: 1px solid #F5F5F5;
+        border-radius: 0;
+      }
+      .panel-white:last-child {
+        border-bottom-color: white;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+      }
+      .panel-white .panel-heading {
+        background: white;
+      }
+      .tab-pane ul {
+        padding-left: 2em;
+      }
+      .tab-pane h2 {
+        font-size: 1.2em;
+        padding-bottom: 4px;
+        border-bottom: 1px solid #ddd;
+      }
+      .tab-pane h3 {
+        font-size: 1.1em;
+      }
+      .tab-content {
+        border-left: 1px solid #ddd;
+        border-right: 1px solid #ddd;
+        border-bottom: 1px solid #ddd;
+        padding: 10px;
+      }
+      #sidebar {
+        margin-top: 30px;
+        padding-right: 5px;
+        overflow: auto;
+        height: 90%;
+      }
+      .top-resource-description {
+        border-bottom: 1px solid #ddd;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description {
+        border-bottom: 1px solid #fcfcfc;
+        background: #fcfcfc;
+        padding: 15px 15px 0 15px;
+        margin: -15px -15px 10px -15px;
+      }
+      .resource-description p:last-child {
+        margin: 0;
+      }
+      .list-group .badge {
+        float: left;
+      }
+      .method_description {
+        margin-left: 85px;
+      }
+      .method_description p:last-child {
+        margin: 0;
+      }
+      .list-group-item {
+        cursor: pointer;
+      }
+      .list-group-item:hover {
+        background-color: #f5f5f5;
+      }
+    </style></head><body data-spy="scroll" data-target="#sidebar"><div class="container"><div class="row"><div class="col-md-9" role="main"><div class="page-header"><h1>gref API documentation <small>version 1</small></h1><p>http://server/api/1/xref</p><h3 id="Overview"><a href="#Overview">Overview</a></h3><h3 id="gref-implementation-of-xref-in-golang-for-the-economist-">Gref - Implementation of xref in golang for The Economist.</h3><p>This service provides a cross reference API for the proposed <a href="https://www.mulesoft.com/platform/soa/mule-esb-open-source-esb">ESB</a>.</p><h4 id="setup">SETUP</h4><ol><li>Clone this repository into your GOPATH.</li><li>We use <a href="https://github.com/tools/godep">godep</a> for dependency management - run <code>godep restore</code> to get the packages needed by this project.</li><li>Run make build.</li><li>Run build/gref and hit the endpoints.</li></ol><h3 id="makefile">MAKEFILE</h3><p>The Makefile provides the following:</p><ul><li><code>build</code>: build the application binary and drop it in the build folder.</li><li><code>gomkbuild</code>: build the application binary.</li><li><code>gomkxbuild</code>: build all cross-platform binaries, using <code>gox</code>.</li><li><code>gomkclean</code>: clean the project directory.</li><li><code>vet</code>: run <code>go tool vet</code> on each source file.</li><li><code>lint</code>: run <code>golint</code> on each source file.</li><li><code>fmt</code>: run <code>go fmt</code> on the entire project.</li><li><code>test</code>: run <code>go test</code> for all packages in the project.</li><li><code>race</code>: run <code>go test</code> with race detection in all packages in the project.</li><li><code>cover</code>: run tests with coverage report in all pkgs in the project.</li><li><code>printvars</code>: print all variables defined in the Makefile.</li></ul><h4 id="api-documentation">API DOCUMENTATION</h4><p>The API is specified using <a href="http://raml.org/index.html">RAML</a> and prettified using <a href="https://github.com/kevinrenskers/raml2html">raml2html</a></p><p>GRef - <b>G</b>o Cross <b>Ref</b>erence is a service that provides mappings between application identifiers and a canonical identifier to aid in application integration.</p><p>The cross-referencing functionality enables the association of identifiers for equivalent entities created in different applications. For example, you can use cross references to associate a customer entity created in one application (with native id cust100) with an entity for the same customer in another application (with native id 145243322).</p><p>Cross-referencing facilitates the mapping of native keys for entities across applications. For example, correlate the same order across different ERP systems.</p><h3 id="general-principles">General Principles</h3><ul><li>Every object instance is associated with a canonical identifier, which is implemented as a UUID</li><li>If an application has knowledge fo the object instance then the application native identifier is mapped to the canonical</li><li>If an application does <strong>not</strong> have knowledge of the object instance then the mapping is NIL</li><li>The canonical identifier should be used for all API invocations</li></ul><p>The easiest way to visualise these references is through tables, where each object type has a single table with each interested application having a column.</p><p><strong>Customer</strong></p><table><thead><tr><th>Canonical</th><th>Application 1</th><th>Application 2</th><th>Application 3</th></tr></thead><tbody><tr><td>A792B2AFA3ED46CAB0F423DFBB7EA56C</td><td>001j000000F4qbcAAB</td><td>NIL</td><td>2344221</td></tr><tr><td>6EE68D7EDBDE4F7D9DF69092104DEF39</td><td>NIL</td><td>TYR78633</td><td>NIL</td></tr><tr><td>AEC16083479F4AEDAD9D1C548AF2C0D3</td><td>NIL</td><td>UEH98877</td><td>9826621</td></tr></tbody></table><p>In the example above, we manage 3 instances of a <strong>Customer</strong> object that all have a canonical identifier. The first instance is known by Applications 1 and 3, the second instance is known by Application 2 and the third instance is known by Applications 2 and 3.</p><h3 id="functional-overview">Functional Overview</h3><p>GRef supports the following high-level functionality</p><ul><li>Create and return a canonical identifier when sent an application identifier</li><li>Return the canonical identifier for an appliction identifier</li><li>Return all of the applictions associated with a canonical identifier</li></ul></div><div class="panel panel-default"><div class="panel-heading"><h3 id="applications" class="panel-title">Applications</h3></div><div class="panel-body"><div class="top-resource-description"><p>Represents all of the applications with canonical mappings. These are used to create mappings and generate <em>canonical</em> objects.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_applications"><span class="parent"></span>/applications</a> <span class="methods"><a href="#applications_get"><span class="badge badge_get">get</span></a> <a href="#applications_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_applications" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#applications_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve all known applications with canonical mappings</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#applications_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new application. This may be called individually to add an application.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/applications</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve all known applications with canonical mappings</p></div><ul class="nav nav-tabs"><li><a href="#applications_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane" id="applications_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved applications</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>"applications": [
+  {
+    "name": "Salesforce"
+  }
+  {
+    "name": "EzPublish"
+  }
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/applications</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new application. This may be called individually to add an application.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications_post_request" data-toggle="tab">Request</a></li><li><a href="#applications_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"name": "Salesforce"}
+</code></pre></div><div class="tab-pane" id="applications_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>Successfully created the application</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the newly created application</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "OK"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>The application already exists</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "The application already exists"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The application couldn't be created."}
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_applications__application_"><span class="parent">/applications</span>/{application}</a> <span class="methods"><a href="#applications__application__get"><span class="badge badge_get">get</span></a> <a href="#applications__application__put"><span class="badge badge_put">put</span></a></span></h4></div><div id="panel_applications__application_" class="panel-collapse collapse"><div class="panel-body"><div class="resource-description"><p>Represents a specific application and the object types for the application with mappings</p></div><div class="list-group"><div onclick="window.location.href = '#applications__application__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve all known applications with canonical mappings and trhe object types associated with the application</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#applications__application__put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update an application</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/applications</span>/{application}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve all known applications with canonical mappings and trhe object types associated with the application</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__get_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__get_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="applications__application__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved application</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "name": "Salesforce",
+  "objects":
+  [
+    {"name": "Customer"}
+    {"name": "Product"}
+  ]
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent">/applications</span>/{application}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update an application</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__put_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__put_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"name": "Salesforce"}
+</code></pre></div><div class="tab-pane" id="applications__application__put_response"><h2>HTTP status code <a href="http://httpstatus.es/302" target="_blank">302</a></h2><p>Successfully updated the object</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the updated resource</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "Object successfully updated"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The object was not found."}   
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_applications__application__objects"><span class="parent">/applications/{application}</span>/objects</a> <span class="methods"><a href="#applications__application__objects_get"><span class="badge badge_get">get</span></a> <a href="#applications__application__objects_post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_applications__application__objects" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#applications__application__objects_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve all mapped objects for an application</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#applications__application__objects_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Assocaite a new object type with an appliction.</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__objects_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/applications/{application}</span>/objects</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve all mapped objects for an application</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__objects_get_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__objects_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__objects_get_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="applications__application__objects_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved resource(s)</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "objects":
+  [
+    {"name": "Customer"}
+    {"name": "Product"}
+  ]
+}
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__objects_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/applications/{application}</span>/objects</h4></div><div class="modal-body"><div class="alert alert-info"><p>Assocaite a new object type with an appliction.</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__objects_post_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__objects_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__objects_post_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"name": "Customer"}
+</code></pre></div><div class="tab-pane" id="applications__application__objects_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>Successfully associated the object</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the newly created resource</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "OK"}  
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>The object type already exists</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "The object association already exists"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The object association couldn't be created."}
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_applications__application__objects__object_"><span class="parent">/applications/{application}/objects</span>/{object}</a> <span class="methods"><a href="#applications__application__objects__object__post"><span class="badge badge_post">post</span></a></span></h4></div><div id="panel_applications__application__objects__object_" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#applications__application__objects__object__post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create an application object mapping to retrieve a canonical.</p><blockquote><p><strong>Note</strong> If the application or object do not already exist then they are silently created by this call.</p></blockquote></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__objects__object__post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent">/applications/{application}/objects</span>/{object}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create an application object mapping to retrieve a canonical.</p><blockquote><p><strong>Note</strong> If the application or object do not already exist then they are silently created by this call.</p></blockquote></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__objects__object__post_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__objects__object__post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__objects__object__post_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li><li><strong>object</strong>: <em>required (string)</em></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "applicationid": {
+      "type": "string",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"applicationid": "001j000000F4qbcAAB"}
+</code></pre></div><div class="tab-pane" id="applications__application__objects__object__post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>Successfully created the mapping</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the newly created resource</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"canonical": "A792B2AFA3ED46CAB0F423DFBB7EA56C"}  
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>The object type already exists</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "The mapping already exists"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The mapping couldn't be created."}
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_applications__application__objects__object___applicationid_"><span class="parent">/applications/{application}/objects/{object}</span>/{applicationid}</a> <span class="methods"><a href="#applications__application__objects__object___applicationid__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_applications__application__objects__object___applicationid_" class="panel-collapse collapse"><div class="panel-body"><div class="resource-description"><p>Represents the canonical object and is used to create or retrieve a canonical mapping.</p></div><div class="list-group"><div onclick="window.location.href = '#applications__application__objects__object___applicationid__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve the application object including the canonical identifier</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="applications__application__objects__object___applicationid__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/applications/{application}/objects/{object}</span>/{applicationid}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve the application object including the canonical identifier</p></div><ul class="nav nav-tabs"><li class="active"><a href="#applications__application__objects__object___applicationid__get_request" data-toggle="tab">Request</a></li><li><a href="#applications__application__objects__object___applicationid__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="applications__application__objects__object___applicationid__get_request"><h3>URI Parameters</h3><ul><li><strong>application</strong>: <em>required (string)</em></li><li><strong>object</strong>: <em>required (string)</em></li><li><strong>applicationid</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="applications__application__objects__object___applicationid__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved the application object</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{
+  "canonical": "A792B2AFA3ED46CAB0F423DFBB7EA56C",
+  "object": "{baseUri}/objects/Customer/A792B2AFA3ED46CAB0F423DFBB7EA56C"
+}
+</code></pre></div></div></div></div></div></div></div></div></div></div><div class="panel panel-default"><div class="panel-heading"><h3 id="objects" class="panel-title">Objects</h3></div><div class="panel-body"><div class="top-resource-description"><p>Objects represent canonical objects and are used to retrieve <em>application</em> mappings for a canonical.</p></div><div class="panel-group"><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_objects"><span class="parent"></span>/objects</a> <span class="methods"><a href="#objects_get"><span class="badge badge_get">get</span></a> <a href="#objects_post"><span class="badge badge_post">post</span></a> <a href="#objects_put"><span class="badge badge_put">put</span></a></span></h4></div><div id="panel_objects" class="panel-collapse collapse"><div class="panel-body"><div class="list-group"><div onclick="window.location.href = '#objects_get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a collection of all known object types</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#objects_post'" class="list-group-item"><span class="badge badge_post">post</span><div class="method_description"><p>Create a new object type</p></div><div class="clearfix"></div></div><div onclick="window.location.href = '#objects_put'" class="list-group-item"><span class="badge badge_put">put</span><div class="method_description"><p>Update an existing object type</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="objects_get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent"></span>/objects</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a collection of all known object types</p></div><ul class="nav nav-tabs"><li><a href="#objects_get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane" id="objects_get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved resource(s)</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>"objects": [
+  {
+    "name": "Customer"
+  }
+  { 
+    "name": "Product"
+  }
+]
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="objects_post"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_post">post</span> <span class="parent"></span>/objects</h4></div><div class="modal-body"><div class="alert alert-info"><p>Create a new object type</p></div><ul class="nav nav-tabs"><li class="active"><a href="#objects_post_request" data-toggle="tab">Request</a></li><li><a href="#objects_post_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="objects_post_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "id": "http://jsonschema.net/name",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"name": "Customer"}
+</code></pre></div><div class="tab-pane" id="objects_post_response"><h2>HTTP status code <a href="http://httpstatus.es/201" target="_blank">201</a></h2><p>Successfully created the object type</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the newly created resource</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "Object type created"}  
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/409" target="_blank">409</a></h2><p>The object type already exists</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "Object type already exists - use PUT to modify"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/500" target="_blank">500</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The object type couldn't be created."}            
+</code></pre></div></div></div></div></div></div><div class="modal fade" tabindex="0" id="objects_put"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_put">put</span> <span class="parent"></span>/objects</h4></div><div class="modal-body"><div class="alert alert-info"><p>Update an existing object type</p></div><ul class="nav nav-tabs"><li class="active"><a href="#objects_put_request" data-toggle="tab">Request</a></li><li><a href="#objects_put_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="objects_put_request"><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Schema</strong>:</p><pre><code>{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-03/schema",
+  "id": "http://jsonschema.net",
+  "required": true,
+  "properties": {
+    "name": {
+      "type": "string",
+      "id": "http://jsonschema.net/name",
+      "required": true
+    }
+  }
+}
+</code></pre><p><strong>Example</strong>:</p><pre><code>{"name": "Customer"}
+</code></pre></div><div class="tab-pane" id="objects_put_response"><h2>HTTP status code <a href="http://httpstatus.es/302" target="_blank">302</a></h2><p>Successfully updated the object</p><h3>Headers</h3><ul><li><strong>Location</strong>: <em>(string)</em><p>Location of the updated resource</p></li></ul><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"message": "Object successfully updated"}
+</code></pre><h2>HTTP status code <a href="http://httpstatus.es/404" target="_blank">404</a></h2><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>{"errorMessage": "The object was not found."}  
+</code></pre></div></div></div></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_objects__object_"><span class="parent">/objects</span>/{object}</a> <span class="methods"></span></h4></div><div id="panel_objects__object_" class="panel-collapse collapse"><div class="panel-body"><div class="resource-description"><p>This resource represents a specific object type</p></div><div class="list-group"></div></div></div></div><div class="panel panel-white"><div class="panel-heading"><h4 class="panel-title"><a class="collapsed" data-toggle="collapse" href="#panel_objects__object___canonical_"><span class="parent">/objects/{object}</span>/{canonical}</a> <span class="methods"><a href="#objects__object___canonical__get"><span class="badge badge_get">get</span></a></span></h4></div><div id="panel_objects__object___canonical_" class="panel-collapse collapse"><div class="panel-body"><div class="resource-description"><p>This resource represents a canonical object, which includes all of the application mappings for that object.</p></div><div class="list-group"><div onclick="window.location.href = '#objects__object___canonical__get'" class="list-group-item"><span class="badge badge_get">get</span><div class="method_description"><p>Retrieve a collection of mappings to this canonical resource</p></div><div class="clearfix"></div></div></div></div></div><div class="modal fade" tabindex="0" id="objects__object___canonical__get"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button><h4 class="modal-title" id="myModalLabel"><span class="badge badge_get">get</span> <span class="parent">/objects/{object}</span>/{canonical}</h4></div><div class="modal-body"><div class="alert alert-info"><p>Retrieve a collection of mappings to this canonical resource</p></div><ul class="nav nav-tabs"><li class="active"><a href="#objects__object___canonical__get_request" data-toggle="tab">Request</a></li><li><a href="#objects__object___canonical__get_response" data-toggle="tab">Response</a></li></ul><div class="tab-content"><div class="tab-pane active" id="objects__object___canonical__get_request"><h3>URI Parameters</h3><ul><li><strong>object</strong>: <em>required (string)</em></li><li><strong>canonical</strong>: <em>required (string)</em></li></ul></div><div class="tab-pane" id="objects__object___canonical__get_response"><h2>HTTP status code <a href="http://httpstatus.es/200" target="_blank">200</a></h2><p>Successfully retrieved resource(s)</p><h3>Body</h3><p><strong>Type: application/json</strong></p><p><strong>Example</strong>:</p><pre><code>"mapping": [
+  {
+    "application": "Salesforce",
+    "identifier": "001j000000F4qbcAAB",
+    "object": "{baseUri}/applications/Salesforce/objects/Customer/001j000000F4qbcAAB"
+    "canonical": "A792B2AFA3ED46CAB0F423DFBB7EA56C"
+  },
+  {
+    "application": "EzPublish",
+    "identifier": "2344221",
+    "object": "{baseUri}/applications/EzPublish/objects/Customer/2344221"
+    "canonical": "A792B2AFA3ED46CAB0F423DFBB7EA56C"
+  }
+]
+</code></pre></div></div></div></div></div></div></div></div></div></div></div><div class="col-md-3"><div id="sidebar" class="hidden-print affix" role="complementary"><ul class="nav nav-pills nav-stacked"><li><a href="#applications">Applications</a></li><li><a href="#objects">Objects</a></li></ul></div></div></div></div></body></html>
