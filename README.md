@@ -31,13 +31,11 @@ You'll need the relevant Go tools available for this to work. Errcheck can be fo
 10. Run ```./build_prod.sh``` to build a production (linux) version of the binary.
 11. The ramlapi package will wire up your endpoints to the handlers.
 12. Now build out your service.
+13. Run ```./dev_env.sh``` to configure environment.
 
 ### 12-FACTOR GOODNESS
 
 We are aiming to make our microservices [12 factor](http://12factor.net/)
-
-* Create a .env file for environment variables and drop into the project root. The [godotenv](http://github.com/joho/godotenv) package will then parse this file and set environment
-variables for everything contained in this file.
 
 ### BUILD INFORMATION
 

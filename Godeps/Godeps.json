@@ -45,11 +45,6 @@
 			"Rev": "ba336c9cfb43552c90de6cb2ceedd3271c747558"
 		},
 		{
-			"ImportPath": "github.com/joho/godotenv",
-			"Comment": "v1-6-gf658182",
-			"Rev": "f6581828bb37238bc1ce8e561d9e4050630a304d"
-		},
-		{
 			"ImportPath": "gopkg.in/logfmt.v0",
 			"Rev": "c50dc9aa845e681529d8e49d3dc11ec0195aacac"
 		},

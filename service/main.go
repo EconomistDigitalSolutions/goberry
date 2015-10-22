@@ -14,7 +14,6 @@ import (
 	_ "github.com/EconomistDigitalSolutions/watchman/meter"
 
 	"github.com/buddhamagnet/goconsul"
-	"github.com/joho/godotenv"
 )
 
 var (
@@ -31,10 +30,6 @@ func init() {
 	flag.StringVar(&port, "port", ":9494", "port to listen on")
 	flag.StringVar(&version, "version", "", "output build date and commit data")
 	flag.StringVar(&ramlFile, "ramlFile", "api.raml", "RAML file to parse")
-
-	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file")
-	}
 
 	serviceName = os.Getenv("SERVICE_NAME")
 	serviceRegistration = os.Getenv("SERVICE_REGISTRATION")
