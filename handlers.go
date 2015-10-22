@@ -22,8 +22,8 @@ func Version(w http.ResponseWriter, r *http.Request) {
 
 // Handler for rest URI / and the action GET
 func Root(w http.ResponseWriter, r *http.Request) {
-	json, _ := json.Marshal(map[string]string{
-		"message": "RootGET",
-	})
-	w.Write(json)
+	w.Header().Set("Content-Type", "text/html")
+	w.WriteHeader(http.StatusOK)
+	http.ServeFile(w, r, "api.html")
+	return
 }
