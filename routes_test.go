@@ -1,7 +1,6 @@
 package goberry_test
 
 import (
-	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"os"
@@ -31,8 +30,7 @@ func TestRootEndpoint(t *testing.T) {
 	res := httptest.NewRecorder()
 
 	router.ServeHTTP(res, req)
-	json.NewDecoder(res.Body).Decode(&response)
-	if response.Message != "RootGET" {
-		t.Fatalf("expected RootGET as message, got %s\n", response.Message)
+	if res.Code != http.StatusOK {
+		t.Fatalf("expected 200 response got %d\n", res.Code)
 	}
 }
