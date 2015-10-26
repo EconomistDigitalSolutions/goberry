@@ -30,7 +30,7 @@ func NewRouter(ramlFile, build, hash string) *mux.Router {
 	router = mux.NewRouter().StrictSlash(true)
 	// Assemble middleware as required.
 	assembleMiddleware()
-	assembleRoutes(buildstamp, githash)
+	assembleRoutes()
 	return router
 }
 
@@ -42,12 +42,12 @@ func assembleMiddleware() {
 				RecoverMiddleware(router))))
 }
 
-func assembleRoutes(build, hash string) {
+func assembleRoutes() {
 	var err error
 
 	// If bundling is enabled, read the RAML
 	// from bundle.go
-	if os.Getenv("BUNDLE_ASSETS") != "" {
+	if os.Getenv("BUNDLE_ASSETS") == "1" {
 		ramlFile := os.Getenv("RAMLFILE_NAME")
 
 		if ramlFile == "" {

@@ -17,13 +17,12 @@ import (
 )
 
 var (
-	port                string
-	buildstamp          string
-	githash             string
-	version             string
-	ramlFile            string
-	serviceName         string
-	serviceRegistration string
+	port        string
+	buildstamp  string
+	githash     string
+	version     string
+	ramlFile    string
+	serviceName string
 )
 
 func init() {
@@ -32,17 +31,16 @@ func init() {
 	flag.StringVar(&ramlFile, "ramlFile", "api.raml", "RAML file to parse")
 
 	serviceName = os.Getenv("SERVICE_NAME")
-	serviceRegistration = os.Getenv("SERVICE_REGISTRATION")
-	journal.Service = serviceName
-
 	if serviceName == "" {
 		serviceName = filepath.Base(os.Args[0])
 	}
+	journal.Service = serviceName
+
 }
 
 func main() {
 
-	if serviceRegistration != "" {
+	if os.Getenv("SERVICE_REGISTRATION") == "1" {
 		if err := goconsul.RegisterService(); err != nil {
 			log.Fatal(err)
 		}
