@@ -43,8 +43,6 @@ func assembleMiddleware() {
 }
 
 func assembleRoutes(build, hash string) {
-	buildstamp = buildstamp
-	githash = hash
 	var err error
 
 	// If bundling is enabled, read the RAML
