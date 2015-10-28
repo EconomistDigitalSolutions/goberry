@@ -1,0 +1,33 @@
+[submodule "vendor/github.com/alecthomas/gobundle"]
+	path = vendor/github.com/alecthomas/gobundle
+	url = https://github.com/alecthomas/gobundle
+[submodule "vendor/github.com/buddhamagnet/goconsul"]
+	path = vendor/github.com/buddhamagnet/goconsul
+	url = https://github.com/buddhamagnet/goconsul
+[submodule "vendor/github.com/buddhamagnet/raml"]
+	path = vendor/github.com/buddhamagnet/raml
+	url = https://github.com/buddhamagnet/raml
+[submodule "vendor/github.com/buddhamagnet/yaml"]
+	path = vendor/github.com/buddhamagnet/yaml
+	url = https://github.com/buddhamagnet/yaml
+[submodule "vendor/github.com/gorilla/context"]
+	path = vendor/github.com/gorilla/context
+	url = https://github.com/gorilla/context
+[submodule "vendor/github.com/gorilla/mux"]
+	path = vendor/github.com/gorilla/mux
+	url = https://github.com/gorilla/mux
+[submodule "vendor/gopkg.in/logfmt.v0"]
+	path = vendor/gopkg.in/logfmt.v0
+	url = https://gopkg.in/logfmt.v0
+[submodule "vendor/gopkg.in/stack.v1"]
+	path = vendor/gopkg.in/stack.v1
+	url = https://gopkg.in/stack.v1
+[submodule "vendor/github.com/go-kit/kit"]
+	path = vendor/github.com/go-kit/kit
+	url = https://github.com/go-kit/kit
+[submodule "vendor/github.com/EconomistDigitalSolutions/ramlapi"]
+	path = vendor/github.com/EconomistDigitalSolutions/ramlapi
+	url = https://github.com/EconomistDigitalSolutions/ramlapi
+[submodule "vendor/github.com/EconomistDigitalSolutions/watchman"]
+	path = vendor/github.com/EconomistDigitalSolutions/watchman
+	url = https://github.com/EconomistDigitalSolutions/watchman

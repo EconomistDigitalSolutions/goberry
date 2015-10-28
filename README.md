@@ -8,7 +8,7 @@ Here is a good starting point for GoSublime:
 "on_save": [{
       "cmd": "gs9o_open", "args": {
         "run": ["sh",
-          "errcheck && godep go build . errors && godep go test -i && godep go test && go vet && golint ."],
+          "errcheck && go build . errors && go test -i && go test && go vet && golint ."],
     "focus_view": false
     }}],
     "autocomplete_closures": true,
@@ -20,18 +20,33 @@ You'll need the relevant Go tools available for this to work. Errcheck can be fo
 #### SETUP
 
 1. Clone this repository into your GOPATH.
-2. Run ```scripts/tools.sh``` to get the ```godep```, ```golint``` and ```errcheck``` tools if you don't have them.
+2. Run ```scripts/tools.sh``` to get the ```golint``` and ```errcheck``` tools if you don't have them.
 3. Drop the .git folder.
 4. Rename the goberry package with `scripts/rename.sh <package>`.
 5. Design your [RAML](http://raml.org) API interface.
 6. Run ```raml-gen``` which will generate HTTP handlers for your service.
 7. Copy the generated ```handlers_gen.go``` file to ```handlers.go```.
 8. Run ```git init```, ```git add .``` and ```git commit -m "initial commit"```.
-9. Run ```./build_dev.sh``` to build a local version of the binary in the service folder.
-10. Run ```./build_prod.sh``` to build a production (linux) version of the binary.
+9. Run ```make build``` to build a local version of the binary in the service folder.
+10. Run ```make buildx``` to build a production (Linux) version of the binary.
 11. The ramlapi package will wire up your endpoints to the handlers.
 12. Now build out your service.
 13. Run ```source dev_env``` to configure environment.
+
+#### MAKEFILE
+
+The comprehensive Makefile allows you to:
+
+1. ```make build``` - build binary.
+2. ```make buildx``` - build binary for deployment (Linux).
+3. ```make tools``` - get ```golint``` and ```errcheck``` tools if needed.
+4. ```make clean``` - remove binaries.
+5. ```make lint``` - run linter recursively.
+6. ```make vet``` - run ```go vet``` recursively.
+7. ```make fmt``` - run ```go fmt``` recursively.
+8. ```make test``` - run ```go test``` in vervbose mode recursively.
+9. ```make race``` - run ```go test``` recursively with the race flag on.
+10. ```make env``` - dump your Go enviroment variables.
 
 ### 12-FACTOR GOODNESS
 
@@ -39,9 +54,9 @@ We are aiming to make our microservices [12 factor](http://12factor.net/)
 
 ### BUILD INFORMATION
 
-The build scripts build the binary as follows:
+The make builders build the binary as follows:
 
-```godep go build -ldflags "-X main.buildstamp `date -u '+%Y-%m-%d_%I:%M:%S%p'` -X main.githash `git rev-parse HEAD`"```
+```go build -ldflags "-X main.buildstamp `date -u '+%Y-%m-%d_%I:%M:%S%p'` -X main.githash `git rev-parse HEAD`"```
 
 The build date and commit hash are then made available via the /version endpont.
 
@@ -60,7 +75,7 @@ By default this is off in goberry so you can adapt your RAML file as necessary w
 
 ### TESTS
 
-Run ```godep go test``` for boring old black and white test output.
+Run ```make test``` for boring old black and white test output.
 
 Run ```./pride``` to get nicely colorized test output.
 
