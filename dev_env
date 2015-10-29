@@ -1,0 +1,5 @@
+export SERVICE_NAME="goberry"
+export SERVICE_REGISTRATION="1"
+
+# To setup your development environment, run:
+# $ source dev_env
