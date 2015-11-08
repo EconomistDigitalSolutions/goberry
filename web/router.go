@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/EconomistDigitalSolutions/ramlapi"
 	"github.com/EconomistDigitalSolutions/watchman/journal"
@@ -74,7 +75,7 @@ func assembleRoutes() {
 			ramlPath = "api.raml"
 		}
 
-		api, err = ramlapi.ProcessRAML(ramlPath)
+		api, err = ramlapi.Process(ramlPath)
 		if err != nil {
 			log.Fatal(err)
 		}
@@ -84,17 +85,30 @@ func assembleRoutes() {
 	ramlapi.Build(api, routerFunc)
 }
 
-func routerFunc(data map[string]string) {
-	route := router.
-		Methods(data["verb"]).
-		Path(data["path"]).
-		Handler(RouteMap[data["handler"]])
+func routerFunc(ep *ramlapi.Endpoint) {
 
-	if data["query"] != "" {
-		if data["query_pattern"] != "" {
-			route.Queries(data["query"], fmt.Sprintf("{%s:%s}", data["query"], data["query_pattern"]))
+	path := ep.Path
+
+	for _, up := range ep.URIParameters {
+		if up.Pattern != "" {
+			path = strings.Replace(
+				path,
+				fmt.Sprintf("{%s}", up.Key),
+				fmt.Sprintf("{%s:%s}", up.Key, up.Pattern),
+				1)
+		}
+	}
+
+	route := router.
+		Methods(ep.Verb).
+		Path(path).
+		Handler(RouteMap[ep.Handler])
+
+	for _, param := range ep.QueryParameters {
+		if param.Pattern != "" {
+			route.Queries(param.Key, fmt.Sprintf("{%s:%s}", param.Key, param.Pattern))
 		} else {
-			route.Queries(data["query"], "")
+			route.Queries(param.Key, "")
 		}
 	}
 }
