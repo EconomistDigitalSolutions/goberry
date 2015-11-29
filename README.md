@@ -26,12 +26,14 @@ You'll need the relevant Go tools available for this to work. Errcheck can be fo
 5. Design your [RAML](http://raml.org) API interface.
 6. Run ```raml-gen``` which will generate HTTP handlers for your service.
 7. Copy the generated ```handlers_gen.go``` file to ```handlers.go```.
-8. Run ```git init```, ```git add .``` and ```git commit -m "initial commit"```.
-9. Run ```make build``` to build a local version of the binary in the service folder.
-10. Run ```make buildx``` to build a production (Linux) version of the binary.
-11. The ramlapi package will wire up your endpoints to the handlers.
-12. Now build out your service.
-13. Run ```source dev_env``` to configure environment.
+8. Run ```git init```.
+9. Run ```submodule_init.sh.
+10. Run ```git add .``` and ```git commit -m "initial commit"```.
+11. Run ```make build``` to build a local version of the binary in the service folder.
+12. Run ```make buildx``` to build a production (Linux) version o the binary.
+13. The ramlapi package will wire up your endpoints to the handlers.
+14. Now build out your service.
+15. Run ```source dev_env``` to configure environment.
 
 #### MAKEFILE
 
