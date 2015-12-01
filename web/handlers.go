@@ -8,8 +8,9 @@ import (
 
 var RouteMap = map[string]http.HandlerFunc{
 
-	"Root":    Root,
-	"Version": Version,
+	"Root":        Root,
+	"Version":     Version,
+	"HealthCheck": HealthCheck,
 }
 
 // Handler for rest URI /version and the action GET
@@ -26,4 +27,13 @@ func Root(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	http.ServeFile(w, r, "api.html")
 	return
+}
+
+// Handler for rest URI /healthcheck and the action HEAD
+func HealthCheck(w http.ResponseWriter, r *http.Request) {
+	up := true
+	if up {
+		return
+	}
+	w.WriteHeader(http.StatusServiceUnavailable)
 }
