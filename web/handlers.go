@@ -8,9 +8,11 @@ import (
 
 var RouteMap = map[string]http.HandlerFunc{
 
-	"Root":        Root,
-	"Version":     Version,
-	"HealthCheck": HealthCheck,
+	"Root":          Root,
+	"Version":       Version,
+	"HealthCheck":   HealthCheck,
+	"QueryOptional": QueryOptional,
+	"QueryRequired": QueryRequired,
 }
 
 // Handler for rest URI /version and the action GET
@@ -36,4 +38,18 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusServiceUnavailable)
+}
+
+func QueryOptional(w http.ResponseWriter, r *http.Request) {
+	json, _ := json.Marshal(map[string]string{
+		"message": "query optional",
+	})
+	w.Write(json)
+}
+
+func QueryRequired(w http.ResponseWriter, r *http.Request) {
+	json, _ := json.Marshal(map[string]string{
+		"message": "query required",
+	})
+	w.Write(json)
 }

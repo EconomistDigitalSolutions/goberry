@@ -105,10 +105,12 @@ func routerFunc(ep *ramlapi.Endpoint) {
 		Handler(RouteMap[ep.Handler])
 
 	for _, param := range ep.QueryParameters {
-		if param.Pattern != "" {
-			route.Queries(param.Key, fmt.Sprintf("{%s:%s}", param.Key, param.Pattern))
-		} else {
-			route.Queries(param.Key, "")
+		if param.Required {
+			if param.Pattern != "" {
+				route.Queries(param.Key, fmt.Sprintf("{%s:%s}", param.Key, param.Pattern))
+			} else {
+				route.Queries(param.Key, "")
+			}
 		}
 	}
 }

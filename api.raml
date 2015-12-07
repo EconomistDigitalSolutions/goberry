@@ -15,3 +15,26 @@ documentation:
 /up:
   head:
     displayName: HealthCheck
+/queryoptional:
+  get:
+    displayName: QueryOptional
+    queryParameters:
+      option:
+        type: string
+        description: An optional query parameter
+        example: "true"
+        required: false
+/queryrequired:
+  get:
+    displayName: QueryRequired
+    queryParameters:
+      o1:
+        type: string
+        description: An required query parameter
+        example: "true"
+        required: true
+      o2:
+        type: string
+        description: An required query parameter
+        example: "true"
+        required: true
