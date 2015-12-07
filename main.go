@@ -12,8 +12,6 @@ import (
 
 	"github.com/EconomistDigitalSolutions/watchman/journal"
 	_ "github.com/EconomistDigitalSolutions/watchman/meter"
-
-	"github.com/buddhamagnet/goconsul"
 )
 
 var (
@@ -39,13 +37,6 @@ func init() {
 }
 
 func main() {
-
-	if os.Getenv("SERVICE_REGISTRATION") == "1" {
-		if err := goconsul.RegisterService(); err != nil {
-			log.Fatal(err)
-		}
-	}
-
 	flag.Parse()
 
 	web.NewRouter(ramlFile, buildstamp, githash)

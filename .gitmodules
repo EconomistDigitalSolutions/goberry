@@ -1,9 +1,6 @@
 [submodule "vendor/github.com/alecthomas/gobundle"]
 	path = vendor/github.com/alecthomas/gobundle
 	url = https://github.com/alecthomas/gobundle
-[submodule "vendor/github.com/buddhamagnet/goconsul"]
-	path = vendor/github.com/buddhamagnet/goconsul
-	url = https://github.com/buddhamagnet/goconsul
 [submodule "vendor/github.com/buddhamagnet/raml"]
 	path = vendor/github.com/buddhamagnet/raml
 	url = https://github.com/buddhamagnet/raml
