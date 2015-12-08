@@ -16,7 +16,7 @@ import (
 )
 
 var (
-	router     *mux.Router
+	Router     *mux.Router
 	api        *raml.APIDefinition
 	buildstamp string
 	githash    string
@@ -25,14 +25,13 @@ var (
 // NewRouter creates a mux router, sets up
 // a static handler and registers the dynamic
 // routes and middleware handlers with the mux.
-func NewRouter(ramlFile, build, hash string) *mux.Router {
+func NewRouter(ramlFile, build, hash string) {
 	buildstamp = build
 	githash = hash
-	router = mux.NewRouter().StrictSlash(true)
+	Router = mux.NewRouter().StrictSlash(true)
 	// Assemble middleware as required.
 	assembleMiddleware()
 	assembleRoutes()
-	return router
 }
 
 // assembleMiddleware sets up the middleware stack.
@@ -40,7 +39,7 @@ func assembleMiddleware() {
 	http.Handle("/",
 		JSONMiddleware(
 			LoggingMiddleware(
-				RecoverMiddleware(router))))
+				RecoverMiddleware(Router))))
 }
 
 func assembleRoutes() {
@@ -99,7 +98,7 @@ func routerFunc(ep *ramlapi.Endpoint) {
 		}
 	}
 
-	route := router.
+	route := Router.
 		Methods(ep.Verb).
 		Path(path).
 		Handler(RouteMap[ep.Handler])
