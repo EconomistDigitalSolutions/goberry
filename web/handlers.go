@@ -4,9 +4,11 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+
+	"github.com/julienschmidt/httprouter"
 )
 
-var RouteMap = map[string]http.HandlerFunc{
+var RouteMap = map[string]httprouter.Handle{
 
 	"Root":          Root,
 	"Version":       Version,
@@ -16,7 +18,7 @@ var RouteMap = map[string]http.HandlerFunc{
 }
 
 // Handler for rest URI /version and the action GET
-func Version(w http.ResponseWriter, r *http.Request) {
+func Version(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	json, _ := json.Marshal(map[string]string{
 		"message": fmt.Sprintf("build date: %s commit: %s", buildstamp, githash),
 	})
@@ -24,7 +26,7 @@ func Version(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handler for rest URI / and the action GET
-func Root(w http.ResponseWriter, r *http.Request) {
+func Root(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
 	http.ServeFile(w, r, "api.html")
@@ -32,7 +34,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
 }
 
 // Handler for rest URI /healthcheck and the action HEAD
-func HealthCheck(w http.ResponseWriter, r *http.Request) {
+func HealthCheck(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	up := true
 	if up {
 		return
@@ -40,14 +42,14 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusServiceUnavailable)
 }
 
-func QueryOptional(w http.ResponseWriter, r *http.Request) {
+func QueryOptional(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	json, _ := json.Marshal(map[string]string{
 		"message": "query optional",
 	})
 	w.Write(json)
 }
 
-func QueryRequired(w http.ResponseWriter, r *http.Request) {
+func QueryRequired(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	json, _ := json.Marshal(map[string]string{
 		"message": "query required",
 	})

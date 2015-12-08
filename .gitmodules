@@ -10,9 +10,6 @@
 [submodule "vendor/github.com/gorilla/context"]
 	path = vendor/github.com/gorilla/context
 	url = https://github.com/gorilla/context
-[submodule "vendor/github.com/gorilla/mux"]
-	path = vendor/github.com/gorilla/mux
-	url = https://github.com/gorilla/mux
 [submodule "vendor/gopkg.in/logfmt.v0"]
 	path = vendor/gopkg.in/logfmt.v0
 	url = https://gopkg.in/logfmt.v0
@@ -28,3 +25,6 @@
 [submodule "vendor/github.com/EconomistDigitalSolutions/watchman"]
 	path = vendor/github.com/EconomistDigitalSolutions/watchman
 	url = https://github.com/EconomistDigitalSolutions/watchman
+[submodule "vendor/github.com/julienschmidt/httprouter"]
+	path = vendor/github.com/julienschmidt/httprouter
+	url = https://github.com/julienschmidt/httprouter

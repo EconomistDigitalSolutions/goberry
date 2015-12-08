@@ -6,17 +6,16 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"strings"
 
 	"github.com/EconomistDigitalSolutions/ramlapi"
 	"github.com/EconomistDigitalSolutions/watchman/journal"
 	"github.com/buddhamagnet/raml"
 	"github.com/buddhamagnet/yaml"
-	"github.com/gorilla/mux"
+	"github.com/julienschmidt/httprouter"
 )
 
 var (
-	router     *mux.Router
+	router     *httprouter.Router
 	api        *raml.APIDefinition
 	buildstamp string
 	githash    string
@@ -25,10 +24,10 @@ var (
 // NewRouter creates a mux router, sets up
 // a static handler and registers the dynamic
 // routes and middleware handlers with the mux.
-func NewRouter(ramlFile, build, hash string) *mux.Router {
+func NewRouter(ramlFile, build, hash string) *httprouter.Router {
 	buildstamp = build
 	githash = hash
-	router = mux.NewRouter().StrictSlash(true)
+	router = httprouter.New()
 	// Assemble middleware as required.
 	assembleMiddleware()
 	assembleRoutes()
@@ -89,7 +88,7 @@ func routerFunc(ep *ramlapi.Endpoint) {
 
 	path := ep.Path
 
-	for _, up := range ep.URIParameters {
+	/*for _, up := range ep.URIParameters {
 		if up.Pattern != "" {
 			path = strings.Replace(
 				path,
@@ -97,20 +96,28 @@ func routerFunc(ep *ramlapi.Endpoint) {
 				fmt.Sprintf("{%s:%s}", up.Key, up.Pattern),
 				1)
 		}
+	}*/
+
+	switch ep.Verb {
+	case "GET":
+		router.GET(path, RouteMap[ep.Handler])
+	case "POST":
+		router.POST(path, RouteMap[ep.Handler])
+	case "HEAD":
+		router.HEAD(path, RouteMap[ep.Handler])
+	case "PUT":
+		router.PUT(path, RouteMap[ep.Handler])
+	case "PATCH":
+		router.PATCH(path, RouteMap[ep.Handler])
 	}
-
-	route := router.
-		Methods(ep.Verb).
-		Path(path).
-		Handler(RouteMap[ep.Handler])
-
-	for _, param := range ep.QueryParameters {
-		if param.Required {
-			if param.Pattern != "" {
-				route.Queries(param.Key, fmt.Sprintf("{%s:%s}", param.Key, param.Pattern))
-			} else {
-				route.Queries(param.Key, "")
+	/*
+		for _, param := range ep.QueryParameters {
+			if param.Required {
+				if param.Pattern != "" {
+					route.Queries(param.Key, fmt.Sprintf("{%s:%s}", param.Key, param.Pattern))
+				} else {
+					route.Queries(param.Key, "")
+				}
 			}
-		}
-	}
+		}*/
 }
