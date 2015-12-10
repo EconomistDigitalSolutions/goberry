@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"net/http"
+	"strings"
 )
 
 // RouteMap links RAML display names to HTTP handlers.
@@ -15,6 +16,8 @@ var RouteMap = map[string]http.HandlerFunc{
 	"QueryRequired": QueryRequired,
 }
 
+var ramlMime = "application/x-yaml"
+
 // Version returns the build date and commit hash of the current build.
 func Version(w http.ResponseWriter, r *http.Request) {
 	json, _ := json.Marshal(map[string]string{
@@ -25,10 +28,16 @@ func Version(w http.ResponseWriter, r *http.Request) {
 
 // Root is the hypermedia root endpoint of the service (GET).
 func Root(w http.ResponseWriter, r *http.Request) {
-	w.Header().Set("Content-Type", "text/html")
-	w.WriteHeader(http.StatusOK)
-	http.ServeFile(w, r, "api.html")
-	return
+	accept := r.Header.Get("Accept")
+	switch strings.Contains(accept, ramlMime) {
+	case true:
+		w.Header().Set("Content-Type", ramlMime)
+		http.ServeFile(w, r, "api.raml")
+		return
+	default:
+		w.Header().Set("Content-Type", "text/html")
+		http.ServeFile(w, r, "api.html")
+	}
 }
 
 // HealthCheck is the health check endpoint of the service (HEAD).
