@@ -16,6 +16,7 @@ import (
 )
 
 var (
+	// Router is the package level mux router.
 	Router     *mux.Router
 	api        *raml.APIDefinition
 	buildstamp string
@@ -81,7 +82,10 @@ func assembleRoutes() {
 	}
 	journal.LogChannel("raml-processor", fmt.Sprintf("processing API spec for %s", api.Title))
 	journal.LogChannel("raml-processor", fmt.Sprintf("base URI at %s", api.BaseUri))
-	ramlapi.Build(api, routerFunc)
+	err = ramlapi.Build(api, routerFunc)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
 
 func routerFunc(ep *ramlapi.Endpoint) {

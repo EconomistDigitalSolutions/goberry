@@ -6,8 +6,8 @@ import (
 	"net/http"
 )
 
+// RouteMap links RAML display names to HTTP handlers.
 var RouteMap = map[string]http.HandlerFunc{
-
 	"Root":          Root,
 	"Version":       Version,
 	"HealthCheck":   HealthCheck,
@@ -15,7 +15,7 @@ var RouteMap = map[string]http.HandlerFunc{
 	"QueryRequired": QueryRequired,
 }
 
-// Handler for rest URI /version and the action GET
+// Version returns the build date and commit hash of the current build.
 func Version(w http.ResponseWriter, r *http.Request) {
 	json, _ := json.Marshal(map[string]string{
 		"message": fmt.Sprintf("build date: %s commit: %s", buildstamp, githash),
@@ -23,7 +23,7 @@ func Version(w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
-// Handler for rest URI / and the action GET
+// Root is the hypermedia root endpoint of the service (GET).
 func Root(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 	w.WriteHeader(http.StatusOK)
@@ -31,7 +31,7 @@ func Root(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
-// Handler for rest URI /healthcheck and the action HEAD
+// HealthCheck is the health check endpoint of the service (HEAD).
 func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	up := true
 	if up {
@@ -40,6 +40,7 @@ func HealthCheck(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusServiceUnavailable)
 }
 
+// QueryOptional demonstrates an endpoint with optional query parameters.
 func QueryOptional(w http.ResponseWriter, r *http.Request) {
 	json, _ := json.Marshal(map[string]string{
 		"message": "query optional",
@@ -47,6 +48,7 @@ func QueryOptional(w http.ResponseWriter, r *http.Request) {
 	w.Write(json)
 }
 
+// QueryRequired demonstrates an endpoint with required query parameters.
 func QueryRequired(w http.ResponseWriter, r *http.Request) {
 	json, _ := json.Marshal(map[string]string{
 		"message": "query required",
