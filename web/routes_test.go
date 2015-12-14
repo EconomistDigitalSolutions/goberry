@@ -31,20 +31,8 @@ func resetRAMLPath() {
 	os.Setenv("RAMLFILE_PATH", "")
 }
 
-func TestRootHandler(t *testing.T) {
-	WithContext(t, []func(){DisableLogger, setRAMLPath, routerSetup, responseSetup}, []func(){resetRAMLPath}, func(t *testing.T) {
-		req, _ := http.NewRequest("GET", "/", nil)
-		// Call the endpoint.
-		web.Router.ServeHTTP(res, req)
-		// Check status code from root endpoint.
-		if res.Code != http.StatusOK {
-			t.Errorf("expected root endpoint (GET) to return 200, got %d", res.Code)
-		}
-	})
-}
-
 func TestVersionHandler(t *testing.T) {
-	WithContext(t, []func(){setRAMLPath, responseSetup}, []func(){resetRAMLPath}, func(t *testing.T) {
+	WithContext(t, []func(){DisableLogger, setRAMLPath, routerSetup, responseSetup}, []func(){resetRAMLPath}, func(t *testing.T) {
 		req, _ := http.NewRequest("GET", "/version", nil)
 		// Call the endpoint.
 		web.Router.ServeHTTP(res, req)
