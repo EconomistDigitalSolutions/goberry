@@ -93,3 +93,7 @@ Run scripts/pythia to run the browser-based UI built on top of the Oracle code a
 
 This codebase provides low level metrics using the built-in expvar package. Simply navigate to /debug/vars to see basic
 memory allocation and stack use information.
+
+### DOCKER
+
+If you'd like to use Docker for your build you'll need to install [Docker](https://docs.docker.com/engine/installation) on your local machine. From there running ```./build.sh``` will create your docker container and start it locally if it passes the tests and linting in the ```./test.sh``` file. This uses the Dockerfile in the route folder and is based on the standard golang container.
