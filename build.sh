@@ -8,11 +8,6 @@ main() {
 
   buildImage
   testImage
-
-  docker kill `docker ps -q --filter "image=local/$SERVICE_NAME:$TAG"`
-  docker run -p 9494:9494 -d $DOCKER_HUB_ACCOUNT/$SERVICE_NAME:$TAG
-  docker ps
-  echo "Docker host: ${DOCKER_HOST}"
 }
 
 cleanup() {
