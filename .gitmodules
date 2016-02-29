@@ -28,3 +28,9 @@
 [submodule "vendor/github.com/EconomistDigitalSolutions/watchman"]
 	path = vendor/github.com/EconomistDigitalSolutions/watchman
 	url = https://github.com/EconomistDigitalSolutions/watchman
+[submodule "vendor/github.com/EconomistDigitalSolutions/mt-utils"]
+	path = vendor/github.com/EconomistDigitalSolutions/mt-utils
+	url = https://github.com/EconomistDigitalSolutions/mt-utils
+[submodule "vendor/github.com/aws/aws-sdk-go"]
+	path = vendor/github.com/aws/aws-sdk-go
+	url = https://github.com/aws/aws-sdk-go

@@ -7,7 +7,9 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 
+	"github.com/EconomistDigitalSolutions/mt-utils/metricutil"
 	"github.com/EconomistDigitalSolutions/ramlapi"
 	"github.com/EconomistDigitalSolutions/watchman/journal"
 	"github.com/buddhamagnet/raml"
@@ -21,6 +23,7 @@ var (
 	api        *raml.APIDefinition
 	buildstamp string
 	githash    string
+	metricData *metricutil.MetricData
 )
 
 // NewRouter creates a mux router, sets up
@@ -30,6 +33,10 @@ func NewRouter(ramlFile, build, hash string) {
 	buildstamp = build
 	githash = hash
 	Router = mux.NewRouter().StrictSlash(true)
+	// Create and configure metrics.
+	metricData = metricutil.NewMetricData()
+	metricutil.InitMetricData(metricData)
+	metricData.ServiceName = journal.Service
 	// Assemble middleware as required.
 	assembleMiddleware()
 	assembleRoutes()
@@ -41,6 +48,23 @@ func assembleMiddleware() {
 		JSONMiddleware(
 			LoggingMiddleware(
 				RecoverMiddleware(Router))))
+	// Kick off metrics.
+	ticker := time.NewTicker(60 * time.Second)
+	quit := make(chan struct{})
+
+	go func() {
+		for {
+			select {
+			case <-ticker.C:
+				metricData.SendMetricDataToCloudWatch(metricData)
+				// Update http request metrics to zero everytime you send to cloudwatch to track maximum for each interval
+				metricutil.InitMetricData(metricData)
+			case <-quit:
+				ticker.Stop()
+				return
+			}
+		}
+	}()
 }
 
 func assembleRoutes() {
