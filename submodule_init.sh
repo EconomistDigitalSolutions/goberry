@@ -1,6 +1,5 @@
 rm -rf vendor/*
 git submodule add https://github.com/alecthomas/gobundle vendor/github.com/alecthomas/gobundle
-git submodule add https://github.com/buddhamagnet/goconsul vendor/github.com/buddhamagnet/goconsul
 git submodule add https://github.com/buddhamagnet/raml vendor/github.com/buddhamagnet/raml
 git submodule add https://github.com/buddhamagnet/yaml vendor/github.com/buddhamagnet/yaml
 git submodule add https://github.com/gorilla/context vendor/github.com/gorilla/context
